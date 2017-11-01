@@ -1,8 +1,12 @@
 package com.TechEnd.AI.entity;
 
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
+
 /**
  * Created by ariji on 10/28/2017.
  */
+@Component
 public class ValidatorBean {
     private final String appSecret;
     private final String verifyToken;

@@ -29,7 +29,7 @@ public class CallBackHandler {
     private  MessengerSendClient sendClient;
 
 
-    com.TechEnd.AI.util.authenticationValidator authenticationValidator= new authenticationValidator();
+   authenticationValidator authenticationValidator= null;
 
     /**
      * Constructs the {@code CallBackHandler} and initializes the {@code MessengerReceiveClient}.

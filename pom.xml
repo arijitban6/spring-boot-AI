@@ -3,9 +3,9 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.TechEnd</groupId>
-	<artifactId>spring-messenger-bot-AI</artifactId>
-	<version>0.1.0-SNAPSHOT</version>
+	<groupId>me.test</groupId>
+	<artifactId>spring-messenger-bot</artifactId>
+	<version>0.2.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>spring-doc-bot</name>
