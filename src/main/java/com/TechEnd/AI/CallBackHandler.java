@@ -1,5 +1,6 @@
 package com.TechEnd.AI;
 
+
 import com.TechEnd.AI.util.authenticationValidator;
 import com.github.messenger4j.exceptions.MessengerVerificationException;
 import com.github.messenger4j.receive.MessengerReceiveClient;
@@ -29,8 +30,11 @@ public class CallBackHandler {
     private  MessengerSendClient sendClient;
 
 
-   authenticationValidator authenticationValidator= null;
+   authenticationValidator AuthenticationValidator;
 
+    public CallBackHandler(authenticationValidator authenticationValidator) {
+        AuthenticationValidator = authenticationValidator;
+    }
     /**
      * Constructs the {@code CallBackHandler} and initializes the {@code MessengerReceiveClient}.
      *
@@ -76,9 +80,9 @@ public class CallBackHandler {
                 verifyToken, challenge);
         System.out.println("verifyToken "+challenge);
         try {
-            String response= authenticationValidator.verify(mode, verifyToken, challenge);
-            receiveClient= authenticationValidator.getReceiveClient();
-            sendClient= authenticationValidator.getSendClient();
+            String response= AuthenticationValidator.verify(mode, verifyToken, challenge);
+            receiveClient= AuthenticationValidator.getReceiveClient();
+            sendClient= AuthenticationValidator.getSendClient();
             return ResponseEntity.ok(response);
         } catch (MessengerVerificationException e) {
             logger.warn("Webhook verification failed: {}", e.getMessage());
@@ -96,7 +100,7 @@ public class CallBackHandler {
         logger.info("Received Messenger Platform callback - payload: {} | signature: {}", payload, signature);
         System.out.println("verifyToken "+signature);
         try {
-            this.receiveClient= authenticationValidator.getReceiveClient();
+            this.receiveClient= AuthenticationValidator.getReceiveClient();
             this.receiveClient.processCallbackPayload(payload, signature);
             logger.debug("Processed callback payload successfully");
             return ResponseEntity.status(HttpStatus.OK).build();

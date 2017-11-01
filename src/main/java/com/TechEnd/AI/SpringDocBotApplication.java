@@ -1,6 +1,7 @@
 package com.TechEnd.AI;
 
 import com.TechEnd.AI.entity.ValidatorBean;
+import com.TechEnd.AI.util.authenticationValidator;
 import com.github.messenger4j.MessengerPlatform;
 import com.github.messenger4j.send.MessengerSendClient;
 import org.slf4j.Logger;
@@ -32,9 +33,16 @@ public class SpringDocBotApplication {
     @Bean
 	public ValidatorBean validatorBean(@Value("${messenger4j.appSecret}") final String appSecret,
 									   @Value("${messenger4j.verifyToken}") final String verifyToken) {
-        return validatorBean(appSecret, verifyToken);
+        return new ValidatorBean(appSecret, verifyToken);
     }
-
+    @Bean
+	public authenticationValidator authenticationValidator(ValidatorBean validatorBean,MessengerSendClient sendClient){
+		return new authenticationValidator(validatorBean,sendClient);
+	}
+	@Bean
+	public CallBackHandler callBackHandler(authenticationValidator authenticationValidator){
+		return new CallBackHandler(authenticationValidator);
+	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(SpringDocBotApplication.class, args);

@@ -30,7 +30,7 @@ public class OptInEventHandlerImpl implements OptInEventHandler {
         final String passThroughParam = optInEvent.getRef();
         final Date timestamp = optInEvent.getTimestamp();
 
-        logger.info("Received authenticationValidator for user '{}' and page '{}' with pass through param '{}' at '{}'",
+        logger.info("Received AuthenticationValidator for user '{}' and page '{}' with pass through param '{}' at '{}'",
                 senderId, recipientId, passThroughParam, timestamp);
 
         SendTextMessage.sendText(senderId, "Authentication successful");

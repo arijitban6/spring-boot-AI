@@ -19,13 +19,13 @@ public class authenticationValidator {
     private static final Logger logger = LoggerFactory.getLogger(authenticationValidator.class);
     private final MessengerReceiveClient receiveClient;
     //private final MessengerSendClient sendClient;
-    @Autowired
+
     private ValidatorBean validatorBean;
-    @Autowired
+
     private MessengerSendClient sendClient ;
-
-    public authenticationValidator() {
-
+    @Autowired
+    public authenticationValidator(ValidatorBean validatorBean,MessengerSendClient sendClient) {
+        this.sendClient = sendClient;
         logger.debug("Initializing MessengerReceiveClient - appSecret: {} | verifyToken: {}", validatorBean.getAppSecret(), validatorBean.getVerifyToken());
         this.receiveClient = MessengerPlatform.newReceiveClientBuilder(validatorBean.getAppSecret(), validatorBean.getVerifyToken())
                 .onTextMessageEvent(new TextMessageEventHandlerImpl(sendClient))
@@ -38,7 +38,7 @@ public class authenticationValidator {
                 .onMessageReadEvent(new MessageReadEventHandlerImpl())
                 .fallbackEventHandler(new FallbackEventHandlerImpl())
                 .build();
-        //this.sendClient = sendClient; TODO check
+        // TODO check
     }
 
     public MessengerReceiveClient getReceiveClient() {
