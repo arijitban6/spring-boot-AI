@@ -1,5 +1,6 @@
 package com.TechEnd.AI.event;
 
+import com.TechEnd.AI.handler.WatsonConversationClientHandler;
 import com.TechEnd.AI.util.authenticationValidator;
 import com.TechEnd.AI.util.handleSendException;
 import com.github.messenger4j.exceptions.MessengerApiException;
@@ -22,6 +23,7 @@ public class TextMessageEventHandlerImpl implements TextMessageEventHandler {
 
     private SendTextMessage SendTextMessage;
     private Action Action;
+    private WatsonConversationClientHandler watsonConversationClientHandler= new WatsonConversationClientHandler();
 
     public TextMessageEventHandlerImpl (MessengerSendClient sendClient) {
         this.SendTextMessage = new SendTextMessage(sendClient);
@@ -29,6 +31,7 @@ public class TextMessageEventHandlerImpl implements TextMessageEventHandler {
     }
     @Override
     public void handle(TextMessageEvent textMessageEvent) {
+
         logger.debug("Received TextMessageEvent: {}", textMessageEvent);
 
         final String messageId = textMessageEvent.getMid();
@@ -40,7 +43,11 @@ public class TextMessageEventHandlerImpl implements TextMessageEventHandler {
                 messageId, messageText, senderId, timestamp);
 
         try {
-            switch (messageText.toLowerCase()) {
+            Action.sendReadReceipt(senderId);
+            Action.sendTypingOn(senderId);
+            SendTextMessage.sendText(senderId, watsonConversationClientHandler.getMesaage(messageText));
+            Action.sendTypingOff(senderId);
+            /*switch (messageText.toLowerCase()) {
 
 
                 case "yo":
@@ -58,8 +65,8 @@ public class TextMessageEventHandlerImpl implements TextMessageEventHandler {
                     //TODO gif
                     //sendSpringDoc(senderId, messageText);
                     //sendQuickReply(senderId);
-                    Action.sendTypingOff(senderId);
-            }
+                    Action.sendTypingOff(senderId);*/
+            //}
         } catch (MessengerApiException | MessengerIOException e) {
             logger.error(new handleSendException().toString(),e);
         } /*catch (IOException e) {
